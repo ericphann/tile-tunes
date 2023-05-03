@@ -128,7 +128,9 @@ public class Dot : MonoBehaviour
         if(column > 0 && column < board.width - 1) {
             GameObject leftDot1 = board.allDots[column - 1, row];
             GameObject rightDot1 = board.allDots[column + 1, row];
-            if (leftDot1.tag == this.gameObject.tag && rightDot1.tag == this.gameObject.tag) {
+            if (leftDot1 == this.gameObject || rightDot1 == this.gameObject) {
+                // horizontal bruh moment
+            } else if (leftDot1.tag == this.gameObject.tag && rightDot1.tag == this.gameObject.tag) {
                 leftDot1.GetComponent<Dot>().isMatched = true;
                 rightDot1.GetComponent<Dot>().isMatched = true;
                 isMatched = true;
@@ -139,7 +141,9 @@ public class Dot : MonoBehaviour
         if(row > 0 && row < board.height - 1) {
             GameObject upDot1 = board.allDots[column, row + 1];
             GameObject downDot1 = board.allDots[column, row - 1];
-            if (upDot1.tag == this.gameObject.tag && downDot1.tag == this.gameObject.tag) {
+            if (upDot1 == this.gameObject || downDot1 == this.gameObject) {
+                // vertical bruh moment
+            } else if (upDot1.tag == this.gameObject.tag && downDot1.tag == this.gameObject.tag) {
                 upDot1.GetComponent<Dot>().isMatched = true;
                 downDot1.GetComponent<Dot>().isMatched = true;
                 isMatched = true;
