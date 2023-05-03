@@ -25,12 +25,10 @@ public class Dot : MonoBehaviour
     void Start()
     {
         board = FindObjectOfType<Board>();
-        targetX = (int)transform.position.x;
-        targetY = (int)transform.position.y;
-        row = targetY;
-        column = targetX;
-        previousRow = row;
-        previousColumn = column;
+        // targetX = (int)transform.position.x;
+        // targetY = (int)transform.position.y;
+        // row = targetY;
+        // column = targetX;
     }
 
     // Update is called once per frame
@@ -49,7 +47,10 @@ public class Dot : MonoBehaviour
         if(Mathf.Abs(targetX - transform.position.x) > .1f) {
             //Move towards the target
             tempPosition = new Vector2(targetX, transform.position.y);
-            transform.position = Vector2.Lerp(transform.position, tempPosition, .4f);
+            transform.position = Vector2.Lerp(transform.position, tempPosition, .6f);
+            if (board.allDots[column, row] != this.gameObject) {
+                board.allDots[column, row] = this.gameObject;
+            }
         } else {
             //Directly set the position
             tempPosition = new Vector2(targetX, transform.position.y);
@@ -61,7 +62,10 @@ public class Dot : MonoBehaviour
         if(Mathf.Abs(targetY - transform.position.y) > .1f) {
             //Move towards the target
             tempPosition = new Vector2(transform.position.x, targetY);
-            transform.position = Vector2.Lerp(transform.position, tempPosition, .4f);
+            transform.position = Vector2.Lerp(transform.position, tempPosition, .6f);
+            if (board.allDots[column, row] != this.gameObject) {
+                board.allDots[column, row] = this.gameObject;
+            }
         } else {
             //Directly set the position
             tempPosition = new Vector2(transform.position.x, targetY);
@@ -83,9 +87,11 @@ public class Dot : MonoBehaviour
                 otherDot.GetComponent<Dot>().column = column;
                 row = previousRow;
                 column = previousColumn;
+            } else {
+                board.DestroyMatches();
             }
             otherDot = null;
-        }
+        } 
     }
 
     private void OnMouseUp() {
@@ -106,21 +112,29 @@ public class Dot : MonoBehaviour
         if(swipeAngle > -45 && swipeAngle <= 45 && column < board.width - 1) {
             // Right swipe
             otherDot = board.allDots[column + 1, row];
+            previousRow = row;
+            previousColumn = column;
             otherDot.GetComponent<Dot>().column -= 1;
             column += 1;
         } else if(swipeAngle > 45 && swipeAngle <= 135 && row < board.height - 1) {
             // Up swipe
-            otherDot = board.allDots[column, row + 1];
+            otherDot = board.allDots[column, row + 1];    
+            previousRow = row;
+            previousColumn = column;
             otherDot.GetComponent<Dot>().row -= 1;
             row += 1;
         } else if((swipeAngle > 135 || swipeAngle <= -135) && column > 0) {
             // Left swipe
-            otherDot = board.allDots[column - 1, row];
+            otherDot = board.allDots[column - 1, row];  
+            previousRow = row;
+            previousColumn = column;
             otherDot.GetComponent<Dot>().column += 1;
             column -= 1;
         } else if(swipeAngle > -135 && swipeAngle < -45 && row > 0) {
             // Down swipe
-            otherDot = board.allDots[column, row - 1];
+            otherDot = board.allDots[column, row - 1];     
+            previousRow = row;
+            previousColumn = column;
             otherDot.GetComponent<Dot>().row += 1;
             row -= 1;
         }
