@@ -13,10 +13,12 @@ public class Board : MonoBehaviour
     public float destroyEffectDuration;
     private BackgroundTile[,] allTiles;
     public GameObject[,] allDots;
+    private FindMatches findMatches;
 
     // Start is called before the first frame update
     void Start()
     {
+        findMatches = FindObjectOfType<FindMatches>();
         allTiles = new BackgroundTile[width, height];
         allDots = new GameObject[width, height];
         Setup();
@@ -78,6 +80,7 @@ public class Board : MonoBehaviour
     private void DestroyMatchesAt(int column, int row){
         if(allDots[column, row].GetComponent<Dot>().isMatched){
             GameObject particle = Instantiate(destroyEffect, allDots[column, row].transform.position, Quaternion.identity);
+            findMatches.currentMatches.Remove(allDots[column, row]);
             Destroy(particle, destroyEffectDuration);
             Destroy(allDots[column, row]);
             allDots[column, row] = null;
