@@ -281,6 +281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66d080d465795824893f83ad2561e4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 1
   width: 7
   height: 10
   offset: 20
@@ -296,6 +297,7 @@ MonoBehaviour:
   - {fileID: 8098108067554844203, guid: fbba17d8a9adb744b8acca34c760d637, type: 3}
   destroyEffect: {fileID: 676061493595656863, guid: 00c25391435f8da46ac5516c32b0cbad, type: 3}
   destroyEffectDuration: 0.75
+  currentDot: {fileID: 0}
 --- !u!4 &1906480266
 Transform:
   m_ObjectHideFlags: 0

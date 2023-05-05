@@ -85,6 +85,9 @@ public class Board : MonoBehaviour
 
     private void DestroyMatchesAt(int column, int row){
         if(allDots[column, row].GetComponent<Dot>().isMatched){
+            if(findMatches.currentMatches.Count == 4 || findMatches.currentMatches.Count == 7) {
+                findMatches.CheckBombs();
+            }
             GameObject particle = Instantiate(destroyEffect, allDots[column, row].transform.position, Quaternion.identity);
             findMatches.currentMatches.Remove(allDots[column, row]);
             Destroy(particle, destroyEffectDuration);
@@ -157,6 +160,8 @@ public class Board : MonoBehaviour
             yield return new WaitForSeconds(.5f);
             DestroyMatches();
         }
+        findMatches.currentMatches.Clear();
+        currentDot = null;
         yield return new WaitForSeconds(.5f);
         currentState = GameState.move;
     }
