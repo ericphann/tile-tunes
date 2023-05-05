@@ -15,6 +15,7 @@ public class Dot : MonoBehaviour
 
     private FindMatches findMatches;
     private Board board;
+    private Conductor conductor;
     public GameObject otherDot;
     private Vector2 firstTouchPosition;
     private Vector2 finalTouchPosition;
@@ -44,6 +45,7 @@ public class Dot : MonoBehaviour
 
         board = FindObjectOfType<Board>();
         findMatches = FindObjectOfType<FindMatches>();
+        conductor = FindObjectOfType<Conductor>();
     }
 
     // testing and debug, turn any piece to row/column bomb
@@ -57,6 +59,14 @@ public class Dot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float currentScale = 1.0f;
+        if (conductor.songPosition <= conductor.musicSource.clip.length) {
+            currentScale = 1.0f + 0.1f * Mathf.Max(Mathf.Sin(conductor.songPositionInBeats * 2 * Mathf.PI), 0); // once per beat * 2pi radians per cycle
+        } else {
+            board.currentState = GameState.wait;
+        }
+        this.GetComponent<Dot>().transform.localScale = new Vector3(currentScale, currentScale, 1.0f);
+
         targetX = column;
         targetY = row;
 
