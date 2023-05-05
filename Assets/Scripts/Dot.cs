@@ -28,6 +28,8 @@ public class Dot : MonoBehaviour
     public bool isColorBomb;
     public bool isColumnBomb;
     public bool isRowBomb;
+    public bool isAdjacentBomb;
+    public GameObject adjacentMarker;
     public GameObject rowArrow;
     public GameObject columnArrow;
     public GameObject colorBomb;
@@ -37,38 +39,30 @@ public class Dot : MonoBehaviour
     {
         isColumnBomb = false;
         isRowBomb = false;
+        isColorBomb = false;
+        isAdjacentBomb = false;
 
         board = FindObjectOfType<Board>();
         findMatches = FindObjectOfType<FindMatches>();
-        // targetX = (int)transform.position.x;
-        // targetY = (int)transform.position.y;
-        // row = targetY;
-        // column = targetX;
     }
 
     // testing and debug, turn any piece to row/column bomb
     private void OnMouseOver() {
         if(Input.GetMouseButtonDown(1)) {
-            isColorBomb = true;
-            GameObject color = Instantiate(colorBomb, transform.position, Quaternion.identity);
-            color.transform.parent = this.transform;
+            isAdjacentBomb = true;
+            GameObject marker = Instantiate(adjacentMarker, transform.position, Quaternion.identity);
+            marker.transform.parent = this.transform;
         }
     }
     // Update is called once per frame
     void Update()
     {
-        // tint dot to grey
-        // if(isMatched) {
-        //     SpriteRenderer mySprite = GetComponent<SpriteRenderer>();
-        //     mySprite.color = new Color(1f, 1f, 1f, .2f);
-        // }
-
         targetX = column;
         targetY = row;
 
         // horizontal update
         if(Mathf.Abs(targetX - transform.position.x) > .1f) {
-            //Move towards the target
+            // Move towards the target
             tempPosition = new Vector2(targetX, transform.position.y);
             transform.position = Vector2.Lerp(transform.position, tempPosition, .6f);
             if (board.allDots[column, row] != this.gameObject) {
@@ -76,7 +70,7 @@ public class Dot : MonoBehaviour
             }
             findMatches.FindAllMatches();
         } else {
-            //Directly set the position
+            // Directly set the position
             tempPosition = new Vector2(targetX, transform.position.y);
             transform.position = tempPosition;
             board.allDots[column, row] = this.gameObject;
@@ -84,7 +78,7 @@ public class Dot : MonoBehaviour
 
         // vertical update
         if(Mathf.Abs(targetY - transform.position.y) > .1f) {
-            //Move towards the target
+            // Move towards the target
             tempPosition = new Vector2(transform.position.x, targetY);
             transform.position = Vector2.Lerp(transform.position, tempPosition, .6f);
             if (board.allDots[column, row] != this.gameObject) {
@@ -106,12 +100,14 @@ public class Dot : MonoBehaviour
     }
 
     public IEnumerator CheckMoveCo() { 
-        if(isColorBomb) {
-            findMatches.MatchPiecesOfColor(otherDot.tag);
-            isMatched = true;
-        } else if (otherDot.GetComponent<Dot>().isColorBomb) {
-            findMatches.MatchPiecesOfColor(this.gameObject.tag);
-            otherDot.GetComponent<Dot>().isMatched = true;
+        if (otherDot != null) {
+            if(isColorBomb) {
+                findMatches.MatchPiecesOfColor(otherDot.tag);
+                isMatched = true;
+            } else if (otherDot.GetComponent<Dot>().isColorBomb) {
+                findMatches.MatchPiecesOfColor(this.gameObject.tag);
+                otherDot.GetComponent<Dot>().isMatched = true;
+            }
         }
 
         yield return new WaitForSeconds(.5f);
@@ -127,7 +123,9 @@ public class Dot : MonoBehaviour
             } else {
                 board.DestroyMatches();
             }
-        } 
+        } else {
+            board.currentState = GameState.move;
+        }
     }
 
     private void OnMouseUp() {
@@ -150,9 +148,6 @@ public class Dot : MonoBehaviour
     }
 
     void MovePieces() {
-
-        // bug here with out of bounds swipe? see notes
-        
         if(swipeAngle > -45 && swipeAngle <= 45 && column < board.width - 1) {
             // Right swipe
             otherDot = board.allDots[column + 1, row];
@@ -227,5 +222,17 @@ public class Dot : MonoBehaviour
         isColumnBomb = true;
         GameObject arrow = Instantiate(columnArrow, transform.position, Quaternion.identity);
         arrow.transform.parent = this.transform;
+    }
+
+    public void MakeColorBomb() {
+        isColorBomb = true;
+        GameObject color = Instantiate(colorBomb, transform.position, Quaternion.identity);
+        color.transform.parent = this.transform;
+    }
+
+    public void MakeAdjacentBomb() {
+        isAdjacentBomb = true;
+        GameObject marker = Instantiate(adjacentMarker, transform.position, Quaternion.identity);
+        marker.transform.parent = this.transform;
     }
 }

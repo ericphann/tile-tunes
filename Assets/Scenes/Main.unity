@@ -289,12 +289,9 @@ MonoBehaviour:
   dots:
   - {fileID: 1139412442987663920, guid: f114e1549304a2940b72121ab3529bd9, type: 3}
   - {fileID: 1600781278953746128, guid: e11d192d2beacbc4cb3cf89fcbe3db8d, type: 3}
-  - {fileID: 2414407363226365543, guid: bb589bef1a8e27148b2f400e684d7c9c, type: 3}
-  - {fileID: 1258377296881689758, guid: b29052ee38c2b6149848e6f37e754b10, type: 3}
-  - {fileID: 504990540253267907, guid: fd19eff7240c39b4da9c105d6c463eda, type: 3}
   - {fileID: 8432249482301146664, guid: 3c9bbfd59e9c68240888038005c23326, type: 3}
-  - {fileID: 2945833479803642437, guid: c7b26fed7a04a564f822ef956263714b, type: 3}
-  - {fileID: 8098108067554844203, guid: fbba17d8a9adb744b8acca34c760d637, type: 3}
+  - {fileID: 2414407363226365543, guid: bb589bef1a8e27148b2f400e684d7c9c, type: 3}
+  - {fileID: 504990540253267907, guid: fd19eff7240c39b4da9c105d6c463eda, type: 3}
   destroyEffect: {fileID: 676061493595656863, guid: 00c25391435f8da46ac5516c32b0cbad, type: 3}
   destroyEffectDuration: 0.75
   currentDot: {fileID: 0}
