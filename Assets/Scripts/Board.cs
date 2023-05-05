@@ -20,10 +20,14 @@ public class Board : MonoBehaviour
     public GameObject[,] allDots;
     public Dot currentDot;
     private FindMatches findMatches;
+    public int basePieceValue = 500;
+    public int multiplier = 1;
+    private ScoreManager scoreManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        scoreManager = FindObjectOfType<ScoreManager>();
         findMatches = FindObjectOfType<FindMatches>();
         allTiles = new BackgroundTile[width, height];
         allDots = new GameObject[width, height];
@@ -171,6 +175,9 @@ public class Board : MonoBehaviour
                 }
             }
         }
+        // add score
+        scoreManager.IncreaseScore(findMatches.currentMatches.Count * basePieceValue * multiplier);
+
         findMatches.currentMatches.Clear();
         StartCoroutine(DecreaseRowCo());
     }
