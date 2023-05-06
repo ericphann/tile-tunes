@@ -8,7 +8,7 @@ public class ButtonController : MonoBehaviour
     public Board board;
 
     public float timeSinceLastGoodHit = 0.0f;
-    public float acceptableTiming = 0.0f;
+    public float acceptableTiming = 0.25f;
 
     //sprites and images
     private SpriteRenderer sr;
