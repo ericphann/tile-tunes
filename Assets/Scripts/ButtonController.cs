@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ButtonController : MonoBehaviour
 {
@@ -55,6 +56,10 @@ public class ButtonController : MonoBehaviour
 
         if(Input.GetKeyUp(keyToPress)) {
             sr.sprite = defaultImage;
+        }
+
+        if(Input.GetKeyDown("escape") || Input.GetKeyDown("backspace")) {
+            SceneManager.LoadScene("SceneMenu");
         }
     }
 }
