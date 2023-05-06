@@ -20,7 +20,9 @@ public class Board : MonoBehaviour
     public GameObject[,] allDots;
     public Dot currentDot;
     private FindMatches findMatches;
-    public int basePieceValue = 500;
+
+    [Header("Score Stuff")]
+    public int basePieceValue = 1000;
     public int multiplier = 1;
     private ScoreManager scoreManager;
 
